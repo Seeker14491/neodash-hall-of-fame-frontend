@@ -37,13 +37,13 @@ const App: Component = () => {
   return (
     <div class="flex flex-col">
       <h1 class="m-4 text-center text-3xl font-bold">Neodash Hall of Fame</h1>
-      <div class="mx-auto max-w-full overflow-x-auto">
+      <div class="mx-auto max-w-full">
         <table class="table-compact mx-1 my-2 table">
           <thead>
             <tr>
-              <th class="!static text-xl">Rank</th>
-              <th class="text-xl">Player</th>
-              <th class="text-xl">Score</th>
+              <th class="sticky top-0 text-xl">Rank</th>
+              <th class="sticky top-0 text-xl">Player</th>
+              <th class="sticky top-0 text-xl">Score</th>
             </tr>
           </thead>
           <tbody>
