@@ -35,7 +35,7 @@ setInterval(update, 60000);
 
 const App: Component = () => {
   return (
-    <div class="flex flex-col">
+    <div class="flex flex-col text-white">
       <h1 class="m-4 text-center text-3xl font-bold">Neodash Hall of Fame</h1>
       <div class="mx-auto max-w-full">
         <table class="table-compact mx-1 my-2 table">
