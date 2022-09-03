@@ -23,18 +23,18 @@ const App: Component = () => {
         <table class="table-compact mx-1 my-2 table">
           <thead>
             <tr>
-              <th class="!static">Rank</th>
-              <th>Player</th>
-              <th>Score</th>
+              <th class="!static text-xl">Rank</th>
+              <th class="text-xl">Player</th>
+              <th class="text-xl">Score</th>
             </tr>
           </thead>
           <tbody>
             <For each={fetchedEntries()}>
               {(entry, i) => (
                 <tr>
-                  <td>{i() + 1}</td>
-                  <td>{entry[0]}</td>
-                  <td>{entry[1]}</td>
+                  <td class="text-xl font-bold">#{ranks()[i()]}</td>
+                  <td class="text-xl">{entry[0]}</td>
+                  <td class="text-right text-xl font-semibold">{entry[1]}</td>
                 </tr>
               )}
             </For>
