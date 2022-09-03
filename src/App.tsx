@@ -1,9 +1,27 @@
 import { formatDistanceToNow } from "date-fns";
-import { Component, createSignal, For } from "solid-js";
+import { Component, createMemo, createSignal, For } from "solid-js";
 
 type Entry = [string, number];
 
 const [fetchedEntries, setFetchedEntries] = createSignal<Entry[]>([]);
+
+const ranks = createMemo(() => {
+  const entries = fetchedEntries();
+  if (entries.length === 0) {
+    return [];
+  }
+
+  const ranks = [1];
+  for (let i = 1; i < entries.length; ++i) {
+    if (entries[i][1] < entries[i - 1][1]) {
+      ranks.push(i + 1);
+    } else {
+      ranks.push(ranks[i - 1]);
+    }
+  }
+
+  return ranks;
+});
 
 const update = async () => {
   const response = await (
