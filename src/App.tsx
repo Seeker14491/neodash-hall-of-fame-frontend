@@ -1,4 +1,5 @@
 import { Component, createMemo, createSignal, For } from "solid-js";
+import { FaBrandsGithub } from "solid-icons/fa";
 
 type Entry = [string, number];
 
@@ -34,7 +35,7 @@ setInterval(update, 60000);
 
 const App: Component = () => {
   return (
-    <div class="flex flex-col text-white">
+    <div class="flex flex-col items-center text-white">
       <h1 class="m-4 text-center text-3xl font-bold">Neodash Hall of Fame</h1>
       <div class="mx-auto max-w-full">
         <table class="table-compact mx-1 my-2 table">
@@ -58,6 +59,13 @@ const App: Component = () => {
           </tbody>
         </table>
       </div>
+      <a
+        class="link link-hover m-4 mt-8 flex items-center gap-1"
+        href="https://github.com/Seeker14491/neodash-hall-of-fame"
+      >
+        <FaBrandsGithub size={20} color="#ffffff" />
+        Source
+      </a>
     </div>
   );
 };
