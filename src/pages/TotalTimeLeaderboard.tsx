@@ -100,7 +100,7 @@ const TotalTimeLeaderboard: Component = () => {
                             #{response1.ranks[i]}
                           </td>
                           <td class="text-xl">{response1.players[i]}</td>
-                          <td class="text-xl font-mono text-right">
+                          <td class="text-lg font-mono text-right">
                             {formatTime(response1.total_times_ms[i])}
                           </td>
                         </tr>
