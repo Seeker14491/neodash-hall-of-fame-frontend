@@ -25,6 +25,7 @@ const App: Component = () => {
         <NavbarButton href="/">Hall of Fame</NavbarButton>
         <NavbarButton href="/total-time">Total Time</NavbarButton>
       </nav>
+      <div class="divider my-0 mx-2" />
       <Routes>
         <Route path="/" component={HallOfFame}></Route>
         <Route path="/total-time" component={TotalTimeLeaderboard}></Route>
