@@ -16,24 +16,6 @@ const [fetchState, setFetchState] = createSignal<"loading" | "done" | "failed">(
   "loading",
 );
 
-const ranks = createMemo(() => {
-  const entries = fetchedEntries();
-  if (entries.length === 0) {
-    return [];
-  }
-
-  const ranks = [1];
-  for (let i = 1; i < entries.length; ++i) {
-    if (entries[i][1] < entries[i - 1][1]) {
-      ranks.push(i + 1);
-    } else {
-      ranks.push(ranks[i - 1]);
-    }
-  }
-
-  return ranks;
-});
-
 const update = async () => {
   try {
     const response = await (
@@ -51,6 +33,24 @@ update();
 setInterval(update, 60000);
 
 const HallOfFame: Component = () => {
+  const ranks = createMemo(() => {
+    const entries = fetchedEntries();
+    if (entries.length === 0) {
+      return [];
+    }
+
+    const ranks = [1];
+    for (let i = 1; i < entries.length; ++i) {
+      if (entries[i][1] < entries[i - 1][1]) {
+        ranks.push(i + 1);
+      } else {
+        ranks.push(ranks[i - 1]);
+      }
+    }
+
+    return ranks;
+  });
+
   return (
     <>
       <Title>Neodash Hall of Fame</Title>
