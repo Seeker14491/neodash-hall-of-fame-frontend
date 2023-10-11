@@ -79,7 +79,7 @@ const HallOfFame: Component = () => {
                       <tr class="border-0">
                         <td class="text-xl font-bold">#{ranks()[i()]}</td>
                         <td class="text-xl">{entry[0]}</td>
-                        <td class="text-right text-xl font-semibold">
+                        <td class="text-right text-xl font-medium font-mono">
                           {entry[1]}
                         </td>
                       </tr>
