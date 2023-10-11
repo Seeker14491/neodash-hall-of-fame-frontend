@@ -59,6 +59,7 @@ const formatTime = (time_ms: number) => {
   return formattedTime;
 };
 
+// FIXME: clean up type cast hacks
 const TotalTimeLeaderboard: Component = () => {
   return (
     <>
@@ -108,6 +109,11 @@ const TotalTimeLeaderboard: Component = () => {
                   </For>
                 </tbody>
               </table>
+            </div>
+            <div class="italic mt-2">
+              players: {(response() as Response).players.length}
+              <br />
+              levels: {(response() as Response).total_levels}
             </div>
           </Match>
         </Switch>
