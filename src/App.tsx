@@ -1,23 +1,29 @@
 import { Component, lazy, ParentProps } from "solid-js";
-import { A, Route, Routes } from "@solidjs/router";
+import { A, Route, Routes, useLocation } from "@solidjs/router";
 
 const HallOfFame = lazy(() => import("./pages/HallOfFame"));
 const TotalTimeLeaderboard = lazy(() => import("./pages/TotalTimeLeaderboard"));
 
-const NavbarButton: Component<ParentProps<{ href: string }>> = (props) => (
-  <A href={props.href} class="btn btn-ghost text-xl">
-    {props.children}
-  </A>
-);
+const NavbarButton: Component<ParentProps<{ href: string }>> = (props) => {
+  const isCurrentPage = () => useLocation().pathname === props.href;
+
+  return (
+    <A
+      href={props.href}
+      class="btn btn-ghost text-xl text-white mr-1"
+      classList={{ underline: isCurrentPage() }}
+    >
+      {props.children}
+    </A>
+  );
+};
 
 const App: Component = () => {
   return (
     <>
       <nav class="navbar">
         <NavbarButton href="/">Hall of Fame</NavbarButton>
-        <A href="/total-time" class="btn btn-ghost text-xl">
-          Total Time
-        </A>
+        <NavbarButton href="/total-time">Total Time</NavbarButton>
       </nav>
       <Routes>
         <Route path="/" component={HallOfFame}></Route>
