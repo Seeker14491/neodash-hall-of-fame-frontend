@@ -68,6 +68,9 @@ const TotalTimeLeaderboard: Component = () => {
         <h1 class="m-4 text-center text-3xl font-bold">
           Neodash Total Time Leaderboard
         </h1>
+        <div class="italic mx-2 text-center">
+          Sum of times across all grid levels, including hardcore
+        </div>
         <Switch>
           <Match when={fetchState() === "loading"}>
             <p class="text-xl">Loading...</p>

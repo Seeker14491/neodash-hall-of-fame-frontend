@@ -56,6 +56,10 @@ const HallOfFame: Component = () => {
       <Title>Neodash Hall of Fame</Title>
       <div class="flex flex-col items-center text-white">
         <h1 class="m-4 text-center text-3xl font-bold">Neodash Hall of Fame</h1>
+        <div class="italic mx-2 text-center">
+          Official Hall of Fame. 1<sup>st</sup> = 4 points, 2<sup>nd</sup> = 2
+          points, 3<sup>rd</sup> = 1 point. Grid levels award double points.
+        </div>
         <Switch>
           <Match when={fetchState() === "loading"}>
             <p class="text-xl">Loading...</p>
