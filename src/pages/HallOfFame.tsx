@@ -4,6 +4,8 @@ import {
   createSignal,
   For,
   Match,
+  onCleanup,
+  onMount,
   Switch,
 } from "solid-js";
 import { FaBrandsGithub } from "solid-icons/fa";
@@ -29,10 +31,12 @@ const update = async () => {
   }
 };
 
-update();
-setInterval(update, 60000);
-
 const HallOfFame: Component = () => {
+  onMount(update);
+
+  const updateTimer = setInterval(update, 60000);
+  onCleanup(() => clearInterval(updateTimer));
+
   const ranks = createMemo(() => {
     const entries = fetchedEntries();
     if (entries.length === 0) {

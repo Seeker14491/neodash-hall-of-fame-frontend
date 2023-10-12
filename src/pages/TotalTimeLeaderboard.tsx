@@ -1,4 +1,12 @@
-import { Component, createSignal, For, Match, Switch } from "solid-js";
+import {
+  Component,
+  createSignal,
+  For,
+  Match,
+  onCleanup,
+  onMount,
+  Switch,
+} from "solid-js";
 import { FaBrandsGithub } from "solid-icons/fa";
 import * as R from "remeda";
 import { Title } from "@solidjs/meta";
@@ -37,9 +45,6 @@ const update = async () => {
   }
 };
 
-update();
-setInterval(update, 60000);
-
 const formatTime = (time_ms: number) => {
   const h = Math.floor(time_ms / 3600000);
   const m = Math.floor((time_ms % 3600000) / 60000);
@@ -61,6 +66,11 @@ const formatTime = (time_ms: number) => {
 
 // FIXME: clean up type cast hacks
 const TotalTimeLeaderboard: Component = () => {
+  onMount(update);
+
+  const updateTimer = setInterval(update, 60000);
+  onCleanup(() => clearInterval(updateTimer));
+
   return (
     <>
       <Title>Neodash Total Time Leaderboard</Title>
