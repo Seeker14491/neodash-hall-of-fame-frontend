@@ -10,6 +10,7 @@ import {
 } from "solid-js";
 import { FaBrandsGithub } from "solid-icons/fa";
 import { Title } from "@solidjs/meta";
+import indicator from "ordinal/indicator";
 
 type Entry = [string, number];
 
@@ -85,7 +86,10 @@ const HallOfFame: Component = () => {
                   <For each={fetchedEntries()}>
                     {(entry, i) => (
                       <tr class="border-0">
-                        <td class="text-xl font-bold">#{ranks()[i()]}</td>
+                        <td class="text-xl font-bold">
+                          {ranks()[i()]}
+                          <sup>{indicator(i() + 1)}</sup>
+                        </td>
                         <td class="text-xl">{entry[0]}</td>
                         <td class="text-right text-xl font-medium font-mono">
                           {entry[1]}

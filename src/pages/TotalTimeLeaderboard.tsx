@@ -10,6 +10,7 @@ import {
 import { FaBrandsGithub } from "solid-icons/fa";
 import * as R from "remeda";
 import { Title } from "@solidjs/meta";
+import indicator from "ordinal/indicator";
 
 type Response = {
   timestamp: string;
@@ -62,7 +63,10 @@ const TotalTimeLeaderboard: Component = () => {
     return R.range(0, numEntriesToKeep).map((i) => {
       return (
         <tr class="border-0">
-          <td class="text-xl font-bold">#{response1.ranks[i]}</td>
+          <td class="text-xl font-bold">
+            {response1.ranks[i]}
+            <sup>{indicator(i + 1)}</sup>
+          </td>
           <td class="text-xl">{response1.players[i]}</td>
           <td class="text-lg font-mono text-right">
             {formatTime(response1.total_times_ms[i])}

@@ -23,6 +23,7 @@
     "@solidjs/meta": "^0.28.6",
     "@solidjs/router": "^0.8.3",
     "daisyui": "^3.9.2",
+    "ordinal": "^1.0.3",
     "remeda": "^1.27.0",
     "solid-icons": "^1.0.12",
     "solid-js": "^1.7.12"
