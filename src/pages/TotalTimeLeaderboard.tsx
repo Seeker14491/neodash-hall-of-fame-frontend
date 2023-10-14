@@ -1,7 +1,7 @@
 import {
   Component,
+  createMemo,
   createSignal,
-  For,
   Match,
   onCleanup,
   onMount,
@@ -18,31 +18,6 @@ type Response = {
   total_times_ms: number[];
   levels_finished: number[];
   ranks: number[];
-};
-
-const [response, setResponse] = createSignal<Response | {}>({});
-const [fetchState, setFetchState] = createSignal<"loading" | "done" | "failed">(
-  "loading",
-);
-
-let numEntriesToKeep = 0;
-const update = async () => {
-  try {
-    const response: Response | {} = await (
-      await fetch("https://neodash-total-time-api.seekr.pw/")
-    ).json();
-    if ("timestamp" in response) {
-      numEntriesToKeep = R.takeWhile(
-        response.levels_finished,
-        (x) => x === response.total_levels,
-      ).length;
-    }
-    setResponse(response);
-    setFetchState("done");
-  } catch (e) {
-    console.error("failed to fetch Total Time data: " + e);
-    setFetchState("failed");
-  }
 };
 
 const formatTime = (time_ms: number) => {
@@ -64,8 +39,56 @@ const formatTime = (time_ms: number) => {
   return formattedTime;
 };
 
-// FIXME: clean up type cast hacks
 const TotalTimeLeaderboard: Component = () => {
+  const [response, setResponse] = createSignal<Response | null>(null, {
+    equals: (a, b) => a?.timestamp === b?.timestamp,
+  });
+
+  const [fetchState, setFetchState] = createSignal<
+    "loading" | "done" | "failed"
+  >("loading");
+
+  let tableRows = createMemo(() => {
+    const response1 = response();
+    if (response1 == null) {
+      return <></>;
+    }
+
+    const numEntriesToKeep = R.takeWhile(
+      response1.levels_finished,
+      (x) => x === response1.total_levels,
+    ).length;
+
+    return R.range(0, numEntriesToKeep).map((i) => {
+      return (
+        <tr class="border-0">
+          <td class="text-xl font-bold">#{response1.ranks[i]}</td>
+          <td class="text-xl">{response1.players[i]}</td>
+          <td class="text-lg font-mono text-right">
+            {formatTime(response1.total_times_ms[i])}
+          </td>
+        </tr>
+      );
+    });
+  });
+
+  const update = async () => {
+    try {
+      const response: Response | {} = await (
+        await fetch("https://neodash-total-time-api.seekr.pw/")
+      ).json();
+      if ("timestamp" in response) {
+        setResponse(response);
+      } else {
+        setResponse(null);
+      }
+      setFetchState("done");
+    } catch (e) {
+      console.error("failed to fetch Total Time data: " + e);
+      setFetchState("failed");
+    }
+  };
+
   onMount(update);
 
   const updateTimer = setInterval(update, 60000);
@@ -88,7 +111,7 @@ const TotalTimeLeaderboard: Component = () => {
           <Match when={fetchState() === "failed"}>
             <p class="text-xl">Failed to load data.</p>
           </Match>
-          <Match when={fetchState() === "done" && R.equals(response(), {})}>
+          <Match when={fetchState() === "done" && response() == null}>
             <p class="text-xl">No data available right now.</p>
           </Match>
           <Match when={fetchState() === "done"}>
@@ -103,30 +126,13 @@ const TotalTimeLeaderboard: Component = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  <For each={R.range(0, numEntriesToKeep)}>
-                    {(i) => {
-                      const response1: Response = response() as any;
-                      return (
-                        <tr class="border-0">
-                          <td class="text-xl font-bold">
-                            #{response1.ranks[i]}
-                          </td>
-                          <td class="text-xl">{response1.players[i]}</td>
-                          <td class="text-lg font-mono text-right">
-                            {formatTime(response1.total_times_ms[i])}
-                          </td>
-                        </tr>
-                      );
-                    }}
-                  </For>
-                </tbody>
+                <tbody>{tableRows()}</tbody>
               </table>
             </div>
             <div class="italic mt-2">
-              players: {(response() as Response).players.length}
+              players: {response()!.players.length}
               <br />
-              levels: {(response() as Response).total_levels}
+              levels: {response()!.total_levels}
             </div>
           </Match>
         </Switch>
